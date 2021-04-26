@@ -23,7 +23,6 @@ export class Blogs extends Component {
   }
 
   deleteBlog = (id) => {
-    console.log(id);
     axios
       .delete(process.env.REACT_APP_SERVER_URI + `articles/${id}`)
       .then((response) => {
@@ -36,8 +35,6 @@ export class Blogs extends Component {
   };
 
   render() {
-    console.log(this.state.blogs);
-
     return (
       <div className="container py-5">
         <h1 className="mb-4">Blog Articles</h1>
@@ -64,7 +61,10 @@ export class Blogs extends Component {
                 Read More
               </Link>
               <Link
-                to="/article/edit"
+                to={{
+                  pathname: `/articles/edit/${blog._id}`,
+                  state: { ...blog },
+                }}
                 className="btn btn-info"
                 style={{ marginRight: 10 }}
               >

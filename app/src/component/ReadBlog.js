@@ -2,10 +2,6 @@ import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
 
 export class ReadBlog extends Component {
-  state = {
-    blog: null,
-  };
-
   render() {
     const article = this.props.location.state;
     return (
@@ -15,7 +11,13 @@ export class ReadBlog extends Component {
         <Link to="/" className="btn btn-secondary" style={{ marginRight: 10 }}>
           All Articles
         </Link>
-        <Link to="/articles/edit" className="btn btn-info">
+        <Link
+          to={{
+            pathname: `/articles/edit/${article._id}`,
+            state: { ...article },
+          }}
+          className="btn btn-info"
+        >
           Edit
         </Link>
 

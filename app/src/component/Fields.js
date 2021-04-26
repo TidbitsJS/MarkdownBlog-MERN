@@ -7,9 +7,9 @@ export class Fields extends Component {
     super(props);
 
     this.state = {
-      title: "",
-      description: "",
-      markdown: "",
+      title: this.props.article.title,
+      description: this.props.article.description,
+      markdown: this.props.article.markdown,
     };
   }
 
@@ -34,11 +34,18 @@ export class Fields extends Component {
       markdown: this.state.markdown,
     };
 
-    console.log(this.props.path);
-
-    axios
-      .post(process.env.REACT_APP_SERVER_URI + this.props.path, article)
-      .then((res) => console.log(res.data));
+    if (this.props.path === "articles/new") {
+      axios
+        .post(process.env.REACT_APP_SERVER_URI + this.props.path, article)
+        .then((res) => console.log(res.data));
+    } else {
+      axios
+        .put(
+          process.env.REACT_APP_SERVER_URI + this.props.path.substring(1),
+          article
+        )
+        .then((res) => console.log(res.data));
+    }
 
     window.location = "/";
   };
