@@ -1,15 +1,57 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 export class Fields extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      title: "",
+      description: "",
+      markdown: "",
+    };
+  }
+
+  onChangeTitle = (e) => {
+    this.setState({ title: e.target.value });
+  };
+
+  onChangeDescription = (e) => {
+    this.setState({ description: e.target.value });
+  };
+
+  onChangeMarkdown = (e) => {
+    this.setState({ markdown: e.target.value });
+  };
+
+  addBlog = (e) => {
+    e.preventDefault();
+
+    const article = {
+      title: this.state.title,
+      description: this.state.description,
+      markdown: this.state.markdown,
+    };
+
+    console.log(this.props.path);
+
+    axios
+      .post(process.env.REACT_APP_SERVER_URI + this.props.path, article)
+      .then((res) => console.log(res.data));
+
+    window.location = "/";
+  };
+
   render() {
     return (
       <>
         <div className="form-group">
-          <label for="title">Title</label>
+          <label htmlFor="title">Title</label>
           <input
             required
-            value="article title"
+            value={this.state.title}
+            onChange={this.onChangeTitle}
             type="text"
             name="title"
             className="form-control"
@@ -17,36 +59,32 @@ export class Fields extends Component {
         </div>
 
         <div className="form-group">
-          <label for="description">Description</label>
+          <label htmlFor="description">Description</label>
           <textarea
             name="description"
             id="description"
+            value={this.state.description}
+            onChange={this.onChangeDescription}
             className="form-control"
-          >
-            article description
-          </textarea>
+          ></textarea>
         </div>
 
         <div className="form-group">
-          <label for="markdown">Markdown</label>
+          <label htmlFor="markdown">Markdown</label>
           <textarea
             required
             name="markdown"
+            value={this.state.markdown}
+            onChange={this.onChangeMarkdown}
             id="markdown"
             className="form-control"
-          >
-            article markdown
-          </textarea>
+          ></textarea>
         </div>
 
         <Link to="/" className="btn btn-secondary" style={{ marginRight: 10 }}>
           Cancel
         </Link>
-        <button
-          type="submit"
-          onSubmit={this.onSubmit}
-          className="btn btn-primary"
-        >
+        <button className="btn btn-primary" onClick={this.addBlog}>
           Save
         </button>
       </>

@@ -7,8 +7,8 @@ export class NewBlog extends Component {
       <div className="container">
         <h1 className="mb-4">New Article</h1>
 
-        <form action="/articles">
-          <Fields />
+        <form onSubmit={this.onSubmit}>
+          <Fields path="articles/new" />
         </form>
       </div>
     );

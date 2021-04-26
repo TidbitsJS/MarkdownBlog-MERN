@@ -33,10 +33,18 @@ router.route("/new").post((req, res) => {
     .catch((err) => res.status(400).json("Error: " + err));
 });
 
-router.route("/:id").put(async (req, res, next) => {
-  req.article = await article.findById(req.params.id);
-  next();
-}, saveArticleAndRedirect("edit"));
+router.route("edit/:id").put(async (req, res, next) => {
+  req.article = await Article.findById(req.params.id);
+
+  article.title = req.body.title;
+  article.description = req.body.description;
+  article.markdown = req.body.markdown;
+
+  article
+    .save()
+    .then(() => res.json("Blog added"))
+    .catch((err) => res.status(400).json("Error: " + err));
+});
 
 router.route("/:id").delete((req, res) => {
   Article.findByIdAndDelete(req.params.id)
