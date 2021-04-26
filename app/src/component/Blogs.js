@@ -39,7 +39,7 @@ export class Blogs extends Component {
     console.log(this.state.blogs);
 
     return (
-      <div className="container">
+      <div className="container py-5">
         <h1 className="mb-4">Blog Articles</h1>
         <Link to="/article/new" className="btn btn-success">
           New Article
@@ -54,7 +54,10 @@ export class Blogs extends Component {
               </div>
               <div className="card-text mb-2">{blog.description}</div>
               <Link
-                to="/article/slug"
+                to={{
+                  pathname: `/articles/${blog.slug}`,
+                  state: { ...blog },
+                }}
                 className="btn btn-primary"
                 style={{ marginRight: 10 }}
               >
