@@ -22,6 +22,19 @@ export class Blogs extends Component {
       });
   }
 
+  deleteBlog = (id) => {
+    console.log(id);
+    axios
+      .delete(process.env.REACT_APP_SERVER_URI + `articles/${id}`)
+      .then((response) => {
+        console.log(response.data);
+      });
+
+    this.setState({
+      blogs: this.state.blogs.filter((el) => el._id !== id),
+    });
+  };
+
   render() {
     console.log(this.state.blogs);
 
@@ -47,14 +60,19 @@ export class Blogs extends Component {
               >
                 Read More
               </Link>
-              <Link to="/article/edit" className="btn btn-info">
+              <Link
+                to="/article/edit"
+                className="btn btn-info"
+                style={{ marginRight: 10 }}
+              >
                 Edit
               </Link>
-              <form onSubmit={this.onSubmit} style={{ marginTop: 10 }}>
-                <button type="submit" className="btn btn-danger">
-                  Delete
-                </button>
-              </form>
+              <button
+                className="btn btn-danger"
+                onClick={() => this.deleteBlog(blog._id)}
+              >
+                Delete
+              </button>
             </div>
           </div>
         ))}

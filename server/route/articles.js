@@ -38,9 +38,10 @@ router.route("/:id").put(async (req, res, next) => {
   next();
 }, saveArticleAndRedirect("edit"));
 
-router.route("/:id").delete(async (req, res) => {
-  await Article.findByIdAndDelete(req.params.id);
-  res.redirect("/");
+router.route("/:id").delete((req, res) => {
+  Article.findByIdAndDelete(req.params.id)
+    .then(() => res.json("Blog Deleted"))
+    .catch((err) => res.status(400).json("Error: " + err));
 });
 
 function saveArticleAndRedirect(path) {
