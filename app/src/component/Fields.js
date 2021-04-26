@@ -37,14 +37,16 @@ export class Fields extends Component {
     if (this.props.path === "articles/new") {
       axios
         .post(process.env.REACT_APP_SERVER_URI + this.props.path, article)
-        .then((res) => console.log(res.data));
+        .then((res) => console.log(res.data))
+        .catch((err) => console.log("Error: " + err));
     } else {
       axios
         .put(
           process.env.REACT_APP_SERVER_URI + this.props.path.substring(1),
           article
         )
-        .then((res) => console.log(res.data));
+        .then((res) => console.log(res.data))
+        .catch((err) => console.log("Error: " + err));
     }
 
     window.location = "/";
