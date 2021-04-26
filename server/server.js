@@ -1,13 +1,16 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const methodOverride = require("method-override");
+const cors = require("cors");
 
 const Article = require("./model/article");
 const ArticleRouter = require("./route/articles");
 require("dotenv").config();
 
 const app = express();
+app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 const port = process.env.PORT || 5000;
 const uri = process.env.MONGO_URI;
@@ -22,7 +25,6 @@ mongoose
     throw new error("Oops an error connecting to MongoDB", err);
   });
 
-app.use(express.urlencoded({ extended: false }));
 app.use(methodOverride("_method"));
 
 app.route("/").get(async (req, res) => {

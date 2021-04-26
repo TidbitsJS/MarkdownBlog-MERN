@@ -2,10 +2,6 @@ const express = require("express");
 const Article = require("../model/article");
 const router = express.Router();
 
-// router.get("/new", (req, res) => {
-//   res.render("/articles/new", { article: new Article() });
-// });
-
 router.route("/edit/:id").get(async (req, res) => {
   try {
     const article = await Article.findById(req.params.id);
@@ -13,7 +9,6 @@ router.route("/edit/:id").get(async (req, res) => {
   } catch (e) {
     res.status(400).json("Error: " + err);
   }
-  //   res.render("/articles/edit", { article: article });
 });
 
 router.route("/:slug").get(async (req, res) => {
@@ -25,10 +20,18 @@ router.route("/:slug").get(async (req, res) => {
   }
 });
 
-router.route("/").post(async (req, res, next) => {
+router.route("/new").post((req, res) => {
   req.article = new Article();
-  next();
-}, saveArticleAndRedirect("new"));
+  let article = req.article;
+  article.title = req.body.title;
+  article.description = req.body.description;
+  article.markdown = req.body.markdown;
+
+  article
+    .save()
+    .then(() => res.json("Blog added"))
+    .catch((err) => res.status(400).json("Error: " + err));
+});
 
 router.route("/:id").put(async (req, res, next) => {
   req.article = await article.findById(req.params.id);
@@ -50,7 +53,7 @@ function saveArticleAndRedirect(path) {
       article = await article.save();
       res.json("Blog added");
     } catch (e) {
-      res.redirect(`articles/${path}`);
+      res.status(400).json("Error: " + err);
     }
   };
 }
