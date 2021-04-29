@@ -28,7 +28,6 @@ export class Fields extends Component {
 
   onChangeMarkdown = ({html, text}) => {
     const newValue = text.replace(/\d/g, "")
-    console.log(newValue, text)
     this.setState({ markdown: newValue });
   };
 
@@ -104,10 +103,10 @@ export class Fields extends Component {
           renderHTML={text => mdParser.render(text)}
         />
 
-        <Link to="/" className="btn btn-secondary" style={{ margin: "15px 10px" }}>
+        <Link to="/" className="btn btn-secondary" style={{ margin: "20px 10px" }}>
           Cancel
         </Link>
-        <button className="btn btn-primary" onClick={this.addBlog} style={{margin: "15px 10px"}}>
+        <button className="btn btn-primary" onClick={this.addBlog} style={{margin: "20px 10px"}}>
           Save
         </button>
       </>
