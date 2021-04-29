@@ -1,6 +1,11 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import Editor from 'react-markdown-editor-lite'
+import MarkdownIt from 'markdown-it'
+import "react-markdown-editor-lite/lib/index.css";
 import axios from "axios";
+
+const mdParser = new MarkdownIt()
 
 export class Fields extends Component {
   constructor(props) {
@@ -21,8 +26,10 @@ export class Fields extends Component {
     this.setState({ description: e.target.value });
   };
 
-  onChangeMarkdown = (e) => {
-    this.setState({ markdown: e.target.value });
+  onChangeMarkdown = ({html, text}) => {
+    const newValue = text.replace(/\d/g, "")
+    console.log(newValue, text)
+    this.setState({ markdown: newValue });
   };
 
   addBlog = (e) => {
@@ -78,7 +85,7 @@ export class Fields extends Component {
           ></textarea>
         </div>
 
-        <div className="form-group">
+        {/* <div className="form-group">
           <label htmlFor="markdown">Markdown</label>
           <textarea
             required
@@ -88,12 +95,19 @@ export class Fields extends Component {
             id="markdown"
             className="form-control"
           ></textarea>
-        </div>
+        </div> */}
 
-        <Link to="/" className="btn btn-secondary" style={{ marginRight: 10 }}>
+        <p>Markdown Article</p>
+        <Editor value={this.state.markdown} 
+          onChange={this.onChangeMarkdown}
+          style={{height: 500}}
+          renderHTML={text => mdParser.render(text)}
+        />
+
+        <Link to="/" className="btn btn-secondary" style={{ margin: "15px 10px" }}>
           Cancel
         </Link>
-        <button className="btn btn-primary" onClick={this.addBlog}>
+        <button className="btn btn-primary" onClick={this.addBlog} style={{margin: "15px 10px"}}>
           Save
         </button>
       </>
